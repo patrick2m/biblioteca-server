@@ -7,13 +7,13 @@ using biblioteca_server.Data.Models;
 
 namespace biblioteca_server.Data
 {
-    public class biblioteca_serverContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public biblioteca_serverContext (DbContextOptions<biblioteca_serverContext> options)
+        public AppDbContext (DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<biblioteca_server.Data.Models.Livro> Livro { get; set; } = default!;
+        public DbSet<Livro> Livro { get; set; } = default!;
     }
 }

@@ -9,8 +9,8 @@ namespace biblioteca_server
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<biblioteca_serverContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("biblioteca_serverContext") ?? throw new InvalidOperationException("Connection string 'biblioteca_serverContext' not found.")));
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection") ?? throw new InvalidOperationException("Connection string 'biblioteca_serverContext' not found.")));
 
             // Add services to the container.
 

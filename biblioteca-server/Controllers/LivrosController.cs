@@ -14,9 +14,9 @@ namespace biblioteca_server.Controllers
     [ApiController]
     public class LivrosController : ControllerBase
     {
-        private readonly biblioteca_serverContext _context;
+        private readonly AppDbContext _context;
 
-        public LivrosController(biblioteca_serverContext context)
+        public LivrosController(AppDbContext context)
         {
             _context = context;
         }
