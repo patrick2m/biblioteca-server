@@ -12,6 +12,15 @@ namespace biblioteca_server
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection") ?? throw new InvalidOperationException("Connection string 'biblioteca_serverContext' not found.")));
 
+            var corsPolicy = "MinhaPoliticaCORS";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MinhaPoliticaCORS",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173");
+                    });
+            });
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -27,6 +36,10 @@ namespace biblioteca_server
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseRouting();
+            app.UseHttpsRedirection();
+            app.UseCors(corsPolicy);
 
             app.UseAuthorization();
 
