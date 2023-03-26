@@ -33,7 +33,7 @@ namespace biblioteca_server.Controllers
         }
 
         // GET: api/Livros/matricula/
-        [HttpGet("/Livros/Matricula/{id}")]
+        [HttpGet("/api/Livros/Matricula/{id}")]
         public async Task<ActionResult<Livro>> GetLivroById(int id)
         {
           if (_context.Livro == null)
@@ -51,7 +51,7 @@ namespace biblioteca_server.Controllers
         }
 
         //GET: api/Livros/Nome/
-        [HttpGet("/Livros/Nome/{nome}")]
+        [HttpGet("/api/Livros/Nome/{nome}")]
         public async Task<ActionResult<Livro>> GetLivroByName(string nome)
         {
             if (_context.Livro == null)
@@ -69,7 +69,7 @@ namespace biblioteca_server.Controllers
         }
 
         //GET: api/Livros/Categoria/
-        [HttpGet("/Livros/Categoria/{categoria}")]
+        [HttpGet("/api/Livros/Categoria/{categoria}")]
         public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByCategory(string categoria)
         {
             if (_context.Livro == null)
@@ -87,7 +87,7 @@ namespace biblioteca_server.Controllers
         }
 
         //GET: api/Livros/data/
-        [HttpGet("/Livros/Data/{DataLancamento}")]
+        [HttpGet("/api/Livros/Data/{DataLancamento}")]
         public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByData(DateTime DataLancamento)
         {
             if (_context.Livro == null)
@@ -106,14 +106,14 @@ namespace biblioteca_server.Controllers
 
 
         //GET: api/Livros/eNacional/
-        [HttpGet("/Livros/eNacional/{eNacional}")]
-        public async Task<ActionResult<Livro>> GetLivroByENacional(bool ENacional)
+        [HttpGet("/api/Livros/ENacional/{ENacional}")]
+        public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByENacional(bool ENacional)
         {
             if (_context.Livro == null)
             {
                 return NotFound();
             }
-            var livro = await _context.Livro.FindAsync(ENacional);
+            var livro = await _context.Livro.Where(l => l.ENacional == ENacional).ToListAsync();
 
             if (livro == null)
             {
@@ -188,6 +188,31 @@ namespace biblioteca_server.Controllers
 
             return NoContent();
         }
+
+        // DELETEALL: api/Livros/Todos
+        [HttpDelete("/api/Livros/Todos")]
+        public async Task<IActionResult> DeleteAllLivros()
+        {
+            if (_context.Livro == null)
+            {
+                return NotFound();
+            }
+            var livros = await _context.Livro.ToListAsync();
+            if (livros == null)
+            {
+                return NotFound();
+            }
+
+            _context.Livro.RemoveRange(livros);
+            await _context.SaveChangesAsync();
+
+            // Retorna o ID para 1
+            var resetIdentitySql = "DELETE FROM sqlite_sequence WHERE name='Livro';";
+            await _context.Database.ExecuteSqlRawAsync(resetIdentitySql);
+
+            return NoContent();
+        }
+
 
         private bool LivroExists(int id)
         {
