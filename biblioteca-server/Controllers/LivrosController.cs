@@ -32,15 +32,88 @@ namespace biblioteca_server.Controllers
             return await _context.Livro.ToListAsync();
         }
 
-        // GET: api/Livros/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Livro>> GetLivro(int id)
+        // GET: api/Livros/matricula/
+        [HttpGet("/Livros/Matricula/{id}")]
+        public async Task<ActionResult<Livro>> GetLivroById(int id)
         {
           if (_context.Livro == null)
           {
               return NotFound();
           }
             var livro = await _context.Livro.FindAsync(id);
+
+            if (livro == null)
+            {
+                return NotFound();
+            }
+
+            return livro;
+        }
+
+        //GET: api/Livros/Nome/
+        [HttpGet("/Livros/Nome/{nome}")]
+        public async Task<ActionResult<Livro>> GetLivroByName(string nome)
+        {
+            if (_context.Livro == null)
+            {
+                return NotFound();
+            }
+            var livro = await _context.Livro.FirstOrDefaultAsync(l => l.Nome == nome);
+
+            if (livro == null)
+            {
+                return NotFound();
+            }
+
+            return livro;
+        }
+
+        //GET: api/Livros/Categoria/
+        [HttpGet("/Livros/Categoria/{categoria}")]
+        public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByCategory(string categoria)
+        {
+            if (_context.Livro == null)
+            {
+                return NotFound();
+            }
+            var livro = await _context.Livro.Where(l => l.Categoria == categoria).ToListAsync();
+
+            if (livro == null)
+            {
+                return NotFound();
+            }
+
+            return livro;
+        }
+
+        //GET: api/Livros/data/
+        [HttpGet("/Livros/Data/{data}")]
+        public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByDate(DateTime DataLancamento)
+        {
+            if (_context.Livro == null)
+            {
+                return NotFound();
+            }
+            var livro = await _context.Livro.Where(l => l.DataLancamento == DataLancamento).ToListAsync();
+
+            if (livro == null)
+            {
+                return NotFound();
+            }
+
+            return livro;
+        }
+
+
+        //GET: api/Livros/eNacional/
+        [HttpGet("/Livros/eNacional/{eNacional}")]
+        public async Task<ActionResult<Livro>> GetLivroByENacional(bool ENacional)
+        {
+            if (_context.Livro == null)
+            {
+                return NotFound();
+            }
+            var livro = await _context.Livro.FindAsync(ENacional);
 
             if (livro == null)
             {
