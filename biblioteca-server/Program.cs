@@ -18,7 +18,9 @@ namespace biblioteca_server
                 options.AddPolicy(name: "MinhaPoliticaCORS",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:5173");
+                        policy.WithOrigins("http://localhost:5173")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
                     });
             });
             // Add services to the container.
@@ -37,8 +39,11 @@ namespace biblioteca_server
                 app.UseSwaggerUI();
             }
 
-            app.UseRouting();
             app.UseHttpsRedirection();
+            app.UseRouting();
+
+            app.UseStaticFiles();
+
             app.UseCors(corsPolicy);
 
             app.UseAuthorization();
