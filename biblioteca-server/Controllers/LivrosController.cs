@@ -87,8 +87,8 @@ namespace biblioteca_server.Controllers
         }
 
         //GET: api/Livros/data/
-        [HttpGet("/Livros/Data/{data}")]
-        public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByDate(DateTime DataLancamento)
+        [HttpGet("/Livros/Data/{DataLancamento}")]
+        public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByData(DateTime DataLancamento)
         {
             if (_context.Livro == null)
             {
