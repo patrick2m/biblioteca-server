@@ -34,7 +34,7 @@ namespace biblioteca_server.Controllers
 
         // GET: api/Livros/matricula/
         [HttpGet("/api/Livros/Matricula/{id}")]
-        public async Task<ActionResult<Livro>> GetLivroById(int id)
+        public async Task<ActionResult<IEnumerable<Livro>>> GetLivroById(int id)
         {
           if (_context.Livro == null)
           {
@@ -46,13 +46,13 @@ namespace biblioteca_server.Controllers
             {
                 return NotFound();
             }
-
-            return livro;
+            var listaLivros = new List<Livro>() { livro };
+            return listaLivros;
         }
 
         //GET: api/Livros/Nome/
         [HttpGet("/api/Livros/Nome/{nome}")]
-        public async Task<ActionResult<Livro>> GetLivroByName(string nome)
+        public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByName(string nome)
         {
             if (_context.Livro == null)
             {
@@ -62,10 +62,10 @@ namespace biblioteca_server.Controllers
 
             if (livro == null)
             {
-                return NotFound();
+                return new List<Livro>() { };
             }
-
-            return livro;
+            var listaLivros = new List<Livro>() { livro };
+            return listaLivros;
         }
 
         //GET: api/Livros/Categoria/
@@ -80,7 +80,7 @@ namespace biblioteca_server.Controllers
 
             if (livro == null)
             {
-                return NotFound();
+                return new List<Livro>() { };
             }
 
             return livro;
@@ -98,12 +98,11 @@ namespace biblioteca_server.Controllers
 
             if (livro == null)
             {
-                return NotFound();
+                return new List<Livro>() { };
             }
 
             return livro;
         }
-
 
         //GET: api/Livros/eNacional/
         [HttpGet("/api/Livros/ENacional/{ENacional}")]
@@ -117,7 +116,7 @@ namespace biblioteca_server.Controllers
 
             if (livro == null)
             {
-                return NotFound();
+                return new List<Livro>() { };
             }
 
             return livro;
@@ -212,7 +211,6 @@ namespace biblioteca_server.Controllers
 
             return NoContent();
         }
-
 
         private bool LivroExists(int id)
         {
