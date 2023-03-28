@@ -153,9 +153,30 @@ namespace biblioteca_server.Controllers
             return NoContent();
         }
 
+        // POST : api/PopularBanco
+        [HttpPost("/api/PopularBanco")]
+        public async Task<ActionResult<IEnumerable<Livro>>> PostLivros(List<Livro> livros)
+        {
+            if (livros == null || livros.Count == 0)
+            {
+                return BadRequest();
+            }
+
+            if (_context.Livro == null)
+            {
+                return NotFound();
+            }
+
+            _context.Livro.AddRange(livros);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetLivro), new { id = livros[0].Id }, livros);
+        }
+
+
         // POST: api/Livros
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("/api/Livros")]
         public async Task<ActionResult<Livro>> PostLivro(Livro livro)
         {
           if (_context.Livro == null)
