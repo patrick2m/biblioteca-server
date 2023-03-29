@@ -10,5 +10,7 @@ namespace biblioteca_server.Data.Models
         public string? Categoria { get; set; }
         public DateTime DataLancamento { get; set; }
         public bool? ENacional { get; set; }
+        public string? Autor { get; set; }
+
     }
 }

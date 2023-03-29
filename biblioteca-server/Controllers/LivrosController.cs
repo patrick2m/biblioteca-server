@@ -86,7 +86,7 @@ namespace biblioteca_server.Controllers
             return livro;
         }
 
-        //GET: api/Livros/data/
+        //GET: api/Livros/Data/
         [HttpGet("/api/Livros/Data/{DataLancamento}")]
         public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByData(DateTime DataLancamento)
         {
@@ -120,6 +120,22 @@ namespace biblioteca_server.Controllers
             }
 
             return livro;
+        }
+        [HttpGet("/api/Livros/Autor/{autor}")]
+        public async Task<ActionResult<IEnumerable<Livro>>> GetLivroByAutor(string autor)
+        {
+            if (_context.Livro == null)
+            {
+                return NotFound();
+            }
+            var livro = await _context.Livro.Where(l => l.Autor == autor).ToListAsync();
+
+            if (livro == null)
+            {
+                return new List<Livro>() { };
+            }
+            var listaLivros = new List<Livro>() { };
+            return listaLivros;
         }
 
         // PUT: api/Livros/5
